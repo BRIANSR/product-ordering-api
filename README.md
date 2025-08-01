@@ -65,6 +65,7 @@ Visit: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 ## 🔑 Authentication
 
 This project uses session-based authentication.
+Using Basic Authentication via Postman to access APIs. 
 
 - Login is required to place orders and view order history.
 - Admins are allowed to add new products.
