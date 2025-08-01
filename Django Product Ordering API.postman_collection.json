@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "5b9481d3-b7b3-4b7d-8ea6-ca1fb9d24c4a",
+		"name": "Django Product Ordering API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46690232",
+		"_collection_link": "https://brian-3192646.postman.co/workspace/brian's-Workspace~d277bf8d-3d94-432c-8213-d8dd9cf35478/collection/46690232-5b9481d3-b7b3-4b7d-8ea6-ca1fb9d24c4a?action=share&source=collection_link&creator=46690232"
+	},
+	"item": [
+		{
+			"name": "User Signup",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"description": "## Signup Endpoint\n\nThis endpoint is used to register a new user in the system. It accepts a POST request with user details and creates a new account based on the provided information.\n\n### Request Format\n\n- **URL**: `http://127.0.0.1:8000/signup/`\n    \n- **Method**: POST\n    \n- **Content-Type**: application/json\n    \n\n### Request Body\n\nThe request body must be in JSON format and include the following parameters:\n\n- **username** (string): The desired username for the new account. This field is required.\n    \n- **password** (string): The password for the new account. This field is required.\n    \n- **is_admin** (boolean): A flag indicating whether the user should have admin privileges. This field is optional.\n    \n\n#### Example Request Body\n\n``` json\n{\n  \"username\": \"brian\",\n  \"password\": \"brian123\",\n  \"is_admin\": true\n}\n\n ```\n\n### Response Structure\n\nUpon successful registration, the server will respond with a status code indicating the result of the operation. If there is an error, such as a validation issue with the username, the response will include an error message.\n\n- **Status Code**: 400 (Bad Request) indicates that the request was malformed or contained invalid data.\n    \n- **Content-Type**: application/json\n    \n\n#### Example Error Response\n\n``` json\n{\n  \"username\": [\"\"]\n}\n\n ```\n\nIn this example, the error response indicates that the username field is invalid or missing.\n\n### Notes\n\n- Ensure that the username is unique and adheres to any specified validation rules.\n    \n- The password should meet security requirements, such as length and complexity."
+			},
+			"response": []
+		},
+		{
+			"name": "User Login",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"description": "## Login API Endpoint\n\nThis endpoint is used to authenticate a user by validating their credentials. Upon successful authentication, it returns a response indicating the status of the login attempt.\n\n### Request\n\n- **Method**: POST\n    \n- **URL**: `http://127.0.0.1:8000/login/`\n    \n- **Content-Type**: application/json\n    \n\n#### Request Body\n\nThe request body must be formatted as JSON and should contain the following parameters:\n\n- `username` (string): The username of the user attempting to log in.\n    \n- `password` (string): The password associated with the provided username.\n    \n\n**Example Request Body**:\n\n``` json\n{\n  \"username\": \"your_username\",\n  \"password\": \"your_password\"\n}\n\n ```\n\n### Response\n\nThe response will be returned in JSON format and contains the following fields:\n\n- `message` (string): A message indicating the result of the login attempt. This may be empty if the login is successful.\n    \n- `user` (string): Information about the authenticated user. This may also be empty depending on the implementation.\n    \n\n**Example Response**:\n\n``` json\n{\n  \"message\": \"\",\n  \"user\": \"\"\n}\n\n ```\n\n### Status Codes\n\n- **200 OK**: The login was successful, and the user is authenticated.\n    \n- Other status codes may indicate various errors or issues with the login attempt.\n    \n\nEnsure that the credentials provided in the request body are correct to receive a successful response."
+			},
+			"response": []
+		},
+		{
+			"name": "Add Product (Admin)",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "brian",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "brian123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"External Hard Drive (1TB)\",\r\n  \"price\": 4599.00,\r\n  \"stock_quantity\": 8\r\n}\r\n\r\n\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/products/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"products",
+						""
+					]
+				},
+				"description": "### Add Product\n\nThis endpoint allows you to add a new product to the inventory. It is a POST request that accepts product details in the request body and returns the created product's information upon successful addition.\n\n#### Request Body\n\nThe request body must be in JSON format and should contain the following parameters:\n\n- **name** (string): The name of the product you want to add.\n    \n- **price** (number): The price of the product, represented as a numerical value.\n    \n- **stock_quantity** (number): The quantity of the product available in stock.\n    \n\n**Example Request Body:**\n\n``` json\n{\n  \"name\": \"External Hard Drive (1TB)\",\n  \"price\": 4599,\n  \"stock_quantity\": 8\n}\n\n ```\n\n#### Response\n\nUpon a successful request, the API will return a response with a status code of `201 Created`. The response will be in JSON format and will include the following fields:\n\n- **id** (integer): The unique identifier assigned to the newly created product.\n    \n- **name** (string): The name of the product that was added.\n    \n- **price** (number): The price of the product.\n    \n- **stock_quantity** (number): The quantity of the product in stock.\n    \n\n**Example Response:**\n\n``` json\n{\n  \"id\": 0,\n  \"name\": \"\",\n  \"price\": \"\",\n  \"stock_quantity\": 0\n}\n\n ```\n\nMake sure to provide valid data in the request body to ensure successful product creation."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"description": "## GET /products/\n\nThis endpoint retrieves a list of products available in the system. It is used to fetch product details such as their identifiers, names, prices, and stock quantities.\n\n### Request\n\n- **Method**: GET\n    \n- **URL**: `http://127.0.0.1:8000/products/`\n    \n- **Request Body**: No request body is required for this endpoint.\n    \n\n### Response\n\nOn a successful request, the server responds with a status code of **200** and returns a JSON array containing the product details. The structure of each product object in the response is as follows:\n\n- **id** (integer): A unique identifier for the product.\n    \n- **name** (string): The name of the product.\n    \n- **price** (string): The price of the product.\n    \n- **stock_quantity** (integer): The quantity of the product available in stock.\n    \n\n#### Example Response\n\n``` json\n[\n    {\n        \"id\": 0,\n        \"name\": \"\",\n        \"price\": \"\",\n        \"stock_quantity\": 0\n    }\n]\n\n ```\n\nThis response provides a comprehensive overview of the products, allowing clients to understand what is available for purchase."
+			},
+			"response": []
+		},
+		{
+			"name": "Place Order",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"description": "## Place Order API\n\nThis endpoint allows users to place an order by submitting a list of items they wish to purchase.\n\n### HTTP Method\n\n`POST`\n\n### Endpoint\n\n`http://127.0.0.1:8000/orders/place/`\n\n### Request Parameters\n\nThe request body must be in JSON format and include the following parameters:\n\n- **items** (Array of Objects): A list of items to be ordered.\n    \n    - **product** (Integer): The ID of the product to be ordered.\n        \n    - **quantity** (Integer): The quantity of the product to be ordered.\n        \n\n#### Example Request Body\n\n``` json\n{\n  \"items\": [\n    {\n      \"product\": 3,\n      \"quantity\": 2\n    }\n  ]\n}\n\n ```\n\n### Response Format\n\nOn success, the API will return a response with the following structure:\n\n- **id** (Integer): The unique identifier of the newly created order.\n    \n- **items** (Array of Objects): A list of items included in the order, echoing the submitted items.\n    \n    - **product** (Integer): The ID of the product.\n        \n    - **quantity** (Integer): The quantity of the product ordered.\n        \n- **total_price** (String): The total price of the order.\n    \n- **created_at** (String): The timestamp when the order was created.\n    \n\n### Example Response\n\n``` json\n{\n  \"id\": 0,\n  \"items\": [\n    {\n      \"product\": 0,\n      \"quantity\": 0\n    }\n  ],\n  \"total_price\": \"\",\n  \"created_at\": \"\"\n}\n\n ```\n\n### Status Codes\n\n- **201 Created**: Indicates that the order has been successfully created."
+			},
+			"response": []
+		},
+		{
+			"name": "View Orders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"description": "## Endpoint: Retrieve Order History\n\n### Description\n\nThis endpoint allows users to retrieve the history of their orders. It returns a list of past orders placed by the user, including details about the items purchased and the total price of each order.\n\n### Request Method\n\n- **GET**\n    \n\n### Request URL\n\n- `http://127.0.0.1:8000/orders/history/`\n    \n\n### Request Body\n\n- This endpoint does not require a request body. It is a simple GET request to fetch data.\n    \n\n### Response Structure\n\nUpon a successful request, the server responds with a JSON array containing the order history. Each order object in the array includes the following fields:\n\n- **id**: (integer) A unique identifier for the order.\n    \n- **items**: (array) A list of items included in the order, where each item contains:\n    \n    - **product**: (object) An object representing the product, which includes:\n        \n        - **name**: (string) The name of the product.\n            \n        - **price**: (string) The price of the product.\n            \n    - **quantity**: (integer) The quantity of the product ordered.\n        \n- **total_price**: (string) The total price of the order.\n    \n- **created_at**: (string) The timestamp indicating when the order was created.\n    \n\n### Response Example\n\n``` json\n[\n    {\n        \"id\": 0,\n        \"items\": [\n            {\n                \"product\": {\n                    \"name\": \"\",\n                    \"price\": \"\"\n                },\n                \"quantity\": 0\n            }\n        ],\n        \"total_price\": \"\",\n        \"created_at\": \"\"\n    }\n]\n\n ```\n\n### Status Codes\n\n- **200 OK**: The request was successful, and the order history is returned."
+			},
+			"response": []
+		}
+	]
+}
