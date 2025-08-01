@@ -1,17 +1,18 @@
-# 🛒 Product Ordering API – Django REST Framework
+# 🛒 Django Product Ordering API
 
-A Django REST API for a basic e-commerce product ordering system. Users can sign up, browse products, place orders, and view their order history. Admins can add products.
+A Django REST API that allows users to sign up, view products, place orders, and view order history. Admin users can add products. Includes a bonus HTML page listing products (login required).
 
 ---
 
 ## 🚀 Features
 
-- User Signup & Login with `is_admin` flag
-- Admins can add products
-- View and filter products (by name)
-- Place orders (validates and updates stock)
-- View user's order history with product details
-- Bonus: Login-protected HTML product listing page
+- Custom User Model with `is_admin` flag
+- Signup and Login APIs (basic auth, no tokens)
+- Admin-only Product Creation API
+- Product Listing API (with optional search by name)
+- Order Placement API with stock validation and price calculation
+- Order History API with detailed product info
+- HTML product list page (bonus feature)
 
 ---
 
@@ -20,51 +21,39 @@ A Django REST API for a basic e-commerce product ordering system. Users can sign
 - Python 3
 - Django 4.2
 - Django REST Framework
-- SQLite (default database)
-- Django templates (for HTML page)
-- Tested using Postman
+- SQLite (default DB)
+- HTML (via Django templates)
+- Postman (for testing)
 
 ---
 
-## 📦 Setup Instructions
+## 🔧 Setup Instructions
 
-### 1. Clone the Repository
-
+### 1. Clone the repository
 ```bash
 git clone https://github.com/BRIANSR/product-ordering-api.git
 cd product-ordering-api
 ```
 
-### 2. Create & Activate Virtual Environment
-
-#### Windows (PowerShell):
-
+### 2. Create virtual environment
 ```bash
 python -m venv venv
-.env\Scriptsctivate
+.env\Scriptsctivate        # On Windows
+# or
+source venv/bin/activate      # On Mac/Linux
 ```
 
-#### Mac/Linux:
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
-### 3. Install Dependencies
-
+### 3. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Apply Migrations
-
+### 4. Run migrations
 ```bash
 python manage.py migrate
 ```
 
-### 5. Run the Server
-
+### 5. Start the development server
 ```bash
 python manage.py runserver
 ```
@@ -73,53 +62,14 @@ Visit: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 ---
 
-## 🔐 Admin Panel (optional)
+## 🔑 Authentication
 
-To create a superuser for the admin site:
+This project uses session-based authentication.
 
-```bash
-python manage.py createsuperuser
-```
+- Login is required to place orders and view order history.
+- Admins are allowed to add new products.
 
-Then login at: [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)
-
----
-
-## 📮 API Endpoints
-
-| Method | Endpoint              | Description                     |
-|--------|-----------------------|---------------------------------|
-| POST   | `/signup/`            | Register a new user             |
-| POST   | `/login/`             | Login with credentials          |
-| GET    | `/products/`          | List all products (with filter) |
-| POST   | `/products/`          | Add new product (admin only)    |
-| POST   | `/orders/place/`      | Place an order (auth required)  |
-| GET    | `/orders/history/`    | View user's order history       |
-| GET    | `/products-page/`     | HTML product listing (login)    |
-
----
-
-## 📤 Postman Collection
-
-To test all endpoints via Postman:
-
-### 🗂 Collection File:
-
-- [`Django Product Ordering API.postman_collection.json`](./Django%20Product%20Ordering%20API.postman_collection.json)
-
-### 🧪 Contains requests for:
-
-- Signup
-- Login
-- Add Product (admin only)
-- Get Products
-- Place Order
-- View Orders
-
----
-
-## 🧾 Sample Admin User
-
+**Admin sample user:**
 ```json
 {
   "username": "brian",
@@ -127,11 +77,86 @@ To test all endpoints via Postman:
   "is_admin": true
 }
 ```
-## 👤 Author
+
+---
+
+## 📦 API Endpoints
+
+### 🔹 Signup
+```http
+POST /signup/
+```
+```json
+{
+  "username": "brian",
+  "password": "brian123",
+  "is_admin": true
+}
+```
+
+### 🔹 Login
+```http
+POST /login/
+```
+```json
+{
+  "username": "brian",
+  "password": "brian123"
+}
+```
+
+### 🔹 Get Products
+```http
+GET /products/
+```
+
+### 🔹 Add Product (admin only)
+```http
+POST /products/
+```
+```json
+{
+  "name": "Laptop",
+  "price": 999.99,
+  "stock_quantity": 10
+}
+```
+
+### 🔹 Place Order
+```http
+POST /orders/place/
+```
+```json
+{
+  "items": [
+    {
+      "product": 1,
+      "quantity": 2
+    }
+  ]
+}
+```
+
+### 🔹 View Order History
+```http
+GET /orders/history/
+```
+
+### 🔹 Product Page (HTML)
+```http
+GET /products-page/
+```
+
+---
+
+## 🧪 Postman Testing
+
+- Collection: [`Django Product Ordering API.postman_collection.json`](./Django%20Product%20Ordering%20API.postman_collection.json)
+- Includes: Signup, Login, Add Product, Get Products, Place Order, View Orders
+
+---
+
+## 🧑 Author
 
 **Name**: Brian  
 **GitHub**: [@BRIANSR](https://github.com/BRIANSR)
-
-### 1. Clone the Repo
-```bash
- https://github.com/BRIANSR/BRIANSR-product-ordering-api.git
